@@ -1,0 +1,23 @@
+<tool id="megap_8" name="JellyfishDump" version="0.1.0">
+  <description>Dump K-mer</description>
+  <command interpreter="bash">
+    jellyfish_dump.sh $input $output
+  </command>
+  <inputs>
+    <param format="tabular" name="input" type="data" label="Count" />
+  </inputs>
+  <outputs>
+    <data format="fasta" name="output" label="${tool.name} dump" />
+  </outputs>
+
+  <tests>
+    <test>
+    </test>
+  </tests>
+
+  <help>
+http://www.genome.umd.edu/jellyfish.html
+  </help>
+
+</tool>
+

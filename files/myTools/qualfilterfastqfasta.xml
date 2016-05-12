@@ -1,0 +1,22 @@
+<tool id="megap_5" name="Qual_Filter_FASTQFASTA" version="0.1.0">
+  <description>Quality filter</description>
+  <command interpreter="bash">
+    qualfilterfastqfasta.sh $input $output
+  </command>
+  <inputs>
+    <param format="sam" name="input" type="data" label="PhixRemoved" />
+  </inputs>
+  <outputs>
+    <data format="fasta" name="output" label="${tool.name} QualFiltered" />
+  </outputs>
+
+  <tests>
+    <test>
+    </test>
+  </tests>
+
+  <help>
+  </help>
+
+</tool>
+

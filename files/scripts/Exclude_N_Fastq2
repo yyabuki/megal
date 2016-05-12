@@ -1,0 +1,54 @@
+#! /usr/local/bin/perl -w
+
+use warnings;
+use strict;
+
+my ($input, $output, $counter, $temp, $divless, $seqname, $error, $aa, $useless) = 0;
+my (@ar) = ();
+
+$input = $ARGV[0];
+open(INPUT, "$input") or die "Can't open \"$input\"\n";
+
+$output = "$input.N";
+open(OUTPUT, ">$output") or die "Can't open \"$output\"\n";
+
+$counter = 0;
+open(INPUT, "$input") or die "Can't open \"$input\"\n";
+while(<INPUT>){
+	if(/^(\S.*?)\s*$/){
+		$counter += 1;
+		$temp = $1;
+		$divless = $counter % 4;
+		if($divless == 1){
+			$seqname = $1;
+		}		
+		elsif($divless == 2){
+            if($temp =~ /N{1,}/){
+                $error = 2;
+                next;
+            }
+            elsif($temp =~ /n{1,}/){
+                $error = 2;
+                next;
+            }
+            else{
+			$error = 1;
+            }
+            print OUTPUT "$seqname\n$temp\n";
+		}
+		elsif($divless == 3){
+			if($error == 1){
+				print OUTPUT "$temp\n";
+			}
+		}
+		elsif($divless == 0){
+			if($error == 1){
+				print OUTPUT "$temp\n";
+			}
+		}
+	}
+}
+close INPUT;
+close OUTPUT;
+exit;
+

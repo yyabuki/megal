@@ -1,0 +1,23 @@
+<tool id="megap_4" name="PhixRemove" version="0.1.0">
+  <description>Remove phiX174</description>
+  <command interpreter="bash">
+    phixremove.sh $inputFq $inputSam $output
+  </command>
+  <inputs>
+    <param format="fastq" name="inputFq" type="data" label="ExcludeN" />
+    <param format="sam" name="inputSam" type="data" label="Mapped" />
+  </inputs>
+  <outputs>
+    <data format="sam" name="output" label="${tool.name} PhixRemoved" />
+  </outputs>
+
+  <tests>
+    <test>
+    </test>
+  </tests>
+
+  <help>
+  </help>
+
+</tool>
+

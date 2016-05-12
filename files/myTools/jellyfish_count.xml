@@ -1,0 +1,35 @@
+<tool id="megap_7" name="JellyfishCount" version="0.1.0">
+  <description>Count K-mer</description>
+  <command interpreter="bash">
+    jellyfish_count.sh $input $output
+    #if $optM.value:
+    -m $optM
+    #end if
+    #if $optS.value:
+    -s $optS
+    #end if
+    #if $optT.value:
+    -t $optT
+    #end if
+  </command>
+  <inputs>
+    <param format="fasta" name="input" type="data" label="Cut" />
+    <param name="optM" type="integer" label="X-mers (-m)" value="20" />
+    <param name="optS" type="text" label="Using a hash with X elements (-s)" value="100M" />
+    <param name="optT" type="integer" label="Threads (-t)" value="1" />
+  </inputs>
+  <outputs>
+    <data format="tabular" name="output" label="${tool.name} count" />
+  </outputs>
+
+  <tests>
+    <test>
+    </test>
+  </tests>
+
+  <help>
+http://www.genome.umd.edu/jellyfish.html
+  </help>
+
+</tool>
+

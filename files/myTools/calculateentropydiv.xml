@@ -1,0 +1,22 @@
+<tool id="megap_9" name="CalculateEntropyDiv" version="0.1.0">
+  <description>Calculate entropy</description>
+  <command interpreter="bash">
+    calculateentropydiv.sh $input $output
+  </command>
+  <inputs>
+    <param format="fasta" name="input" type="data" label="Dump" />
+  </inputs>
+  <outputs>
+    <data format="tabular" name="output" label="${tool.name} Result" />
+  </outputs>
+
+  <tests>
+    <test>
+    </test>
+  </tests>
+
+  <help>
+  </help>
+
+</tool>
+

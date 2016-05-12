@@ -1,0 +1,43 @@
+#! /usr/local/bin/perl -w
+
+use warnings;
+use strict;
+
+my ($input, $spe_out, $ref, $revcom_count, $abque, $seq, $que, $sub, $key1, $awq, $re_cou) = 0;
+my (%phylum_Hash, %genus_Hash) = ();
+
+$input = $ARGV[0];
+open(INPUT, "$input") or die "Can't open \"$input\"\n";
+
+$ref = $ARGV[1];
+open(REF, "$ref") or die "Can't open \"$ref\"\n";
+
+$spe_out = "$input.genus";
+open(OUTPUT, ">$spe_out") or die "Can't open \"$spe_out\"\n";
+
+open(REF, "$ref") or die "Can't open \"$ref\"\n";
+while(<REF>){
+	if(/^(\S+)\t+(\S.+?)\t+(\S.+?)\t+/){
+		$phylum_Hash{$1} = $2;
+		$genus_Hash{$1} = $3;
+	}
+}
+close REF;
+
+open(INPUT, "$input") or die "Can't open \"$input\"\n";
+while(<INPUT>){
+	if(/^(\S+)\s+\S.+?\s+(\d+)\s+(\S+)\s*$/){
+		if($2 >= 94){
+			if(exists($phylum_Hash{$1})){
+				print OUTPUT "$genus_Hash{$1}\t$phylum_Hash{$1}\t$3\n";
+			}
+			else{
+				print "$1\n";
+			}
+		}
+	}
+}
+close INPUT;
+close OUTPUT;
+exit;
+

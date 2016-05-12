@@ -1,0 +1,26 @@
+<tool id="megap_3" name="Bowtie2" version="0.1.0">
+  <description>Map to PhiX174</description>
+  <command interpreter="bash">
+    bowtie2.sh $input $output $nohd $nosq $nounal $fastlocal
+  </command>
+  <inputs>
+    <param format="fastq" name="input" type="data" label="ExcludeN" />
+    <param name="nohd" type="boolean" label="Suppress SAM header lines (--no-hd)" checked="True" truevalue="--no-hd" falsevalue=""/>
+    <param name="nosq" type="boolean" label="Suppress @SQ SAM header lines (--no-sq)" checked="True" truevalue="--no-sq" falsevalue=""/>
+    <param name="nounal" type="boolean" label="Suppress SAM records for reads that failed to align (--no-unal)" checked="True" truevalue="--no-unal" falsevalue=""/>
+    <param name="fastlocal" type="boolean" label="-D 10 -R 2 -N 0 -L 22 -i S,1,1.75(--fast-local)" checked="True" truevalue="--fast-local" falsevalue=""/>
+  </inputs>
+  <outputs>
+    <data format="sam" name="output" label="${tool.name} mapped" />
+  </outputs>
+
+  <tests>
+    <test>
+    </test>
+  </tests>
+
+  <help>
+  </help>
+
+</tool>
+

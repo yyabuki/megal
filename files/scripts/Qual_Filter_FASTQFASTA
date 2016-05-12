@@ -1,0 +1,69 @@
+#! /usr/local/bin/perl -w
+
+use warnings;
+use strict;
+
+my ($input, $ascii, $output, $val, $counter, $temp, $divless, $seqname, $seq, $three, $sum, $aa, $average, $num) = 0;
+my (@ar) = ();
+my (%qv_Hash, ) = ();
+
+$input = $ARGV[0];
+open(INPUT, "$input") or die "Can't open \"$input\"\n";
+
+$ascii = $ARGV[1];
+open(ASCII, "$ascii") or die "Can't open \"$ascii\"\n";
+
+$output = "$input.fasta";
+open(OUTPUT, ">$output") or die "Can't open \"$output\"\n";
+
+open(ASCII, "$ascii") or die "Can't open \"$ascii\"\n";
+
+while(<ASCII>){
+	if(/^(\S)\s+(\S+)\s/){
+		$val = $2-33;
+		$qv_Hash{$1} = $val;
+	}
+}
+close ASCII;
+
+$counter = 0;
+open(INPUT, "$input") or die "Can't open \"$input\"\n";
+while(<INPUT>){
+	if(/^(\S.*?)\s*$/){
+		$counter += 1;
+		$temp = $1;
+		$divless = $counter % 4;
+		if($divless == 1){
+			$seqname = $temp;
+			$seqname =~ s/^\@*//;
+		}		
+		elsif($divless == 2){
+			$seq = $temp;
+		}
+		elsif($divless == 3){
+			$three = $temp;
+		}
+		elsif($divless == 0){
+			@ar = ();
+			@ar = split(//, $temp);
+			$sum = 0;
+			foreach $aa (@ar){
+				if(exists($qv_Hash{$aa})){
+					$sum += $qv_Hash{$aa};
+				}
+			}
+			$num = scalar(@ar);
+			$average = $sum/$num;
+			if($average < 25){
+				next;
+			}
+			else{
+				print OUTPUT ">$seqname\n$seq\n";
+			}
+		}
+	}
+}
+close INPUT;
+close OUTPUT;
+exit;
+

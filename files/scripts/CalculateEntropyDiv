@@ -1,0 +1,53 @@
+#! /usr/local/bin/perl -w
+
+use warnings;
+use strict;
+
+my ($input, $sum, $counter, $kenza, $sha, $i, $sha2, $fi) = 0;
+my (@ar) = ();
+
+$input = $ARGV[0];
+open(INPUT, "$input") or die "Can't open \"$input\"\n";
+
+$sum = 0;
+$counter = 0;
+@ar = ();
+open(INPUT, "$input") or die "Can't open \"$input\"\n";
+while(<INPUT>){
+	if(/^>(\d+)/){
+		$sum += $1;
+		$ar[$counter] = $1;
+		$counter += 1;
+	}
+}
+close INPUT;
+
+$sha = 0;
+for($i=0;$i<$counter;$i++){
+	$sha += $ar[$i]/$sum*(log($ar[$i]/$sum)/log(2));
+}
+$sha2 = -1*$sha;
+
+# by imsbio
+if($sha2>10){
+  print "Metagenome\n";
+}
+else{
+  print "Meta16S\n";
+}
+
+#if($input =~ /^(\S+?)\.20\.kmer\.dump/){
+#	$fi = $1;
+#	if($sha2>10){
+#		system("mv $fi /home/hmori/MDB/Metagenome/");
+#	}
+#	else{
+#		system("mv $fi /home/hmori/MDB/Meta16S/");
+#	}
+#}
+#else{
+#	print "File Name error $input\n";
+#}
+exit;
+
+

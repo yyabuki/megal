@@ -1,0 +1,23 @@
+<tool id="megap_6" name="Cut" version="0.1.0">
+  <description>Cut sequence</description>
+  <command interpreter="bash">
+    cut.sh $input $output -c -"${cnum}"
+  </command>
+  <inputs>
+    <param format="fasta" name="input" type="data" label="PhixRemoved" />
+    <param name="cnum" type="integer" label="# of characters to cut" value="20" />
+  </inputs>
+  <outputs>
+    <data format="fasta" name="output" label="${tool.name} Cut" />
+  </outputs>
+
+  <tests>
+    <test>
+    </test>
+  </tests>
+
+  <help>
+  </help>
+
+</tool>
+

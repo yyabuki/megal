@@ -1,0 +1,22 @@
+<tool id="megap_2" name="Exclude_N_Fastq2" version="0.1.0">
+  <description>Exclude Ns</description>
+  <command interpreter="bash">
+    exclude_n_fastq2.sh $input $output
+  </command>
+  <inputs>
+    <param format="fastq" name="input" type="data" label="Trimmed" />
+  </inputs>
+  <outputs>
+    <data format="fastq" name="output" label="${tool.name} ExcludeN" />
+  </outputs>
+
+  <tests>
+    <test>
+    </test>
+  </tests>
+
+  <help>
+  </help>
+
+</tool>
+

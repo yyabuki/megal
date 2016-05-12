@@ -1,0 +1,84 @@
+#! /usr/local/bin/perl -w
+
+#Last modified date: June 14, 2014
+#This program was written by Hiroshi Mori
+#PhiXRemove.pl by Hiroshi Mori is licensed under a Creative Commons Attribution ShareAlike 2.1 Japan license (c)
+# IN NO EVENT SHALL THE AUTHOR OF THIS PROGRAM BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS PROGRAM, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#Usage: perl PhiXRemove.pl OutputFileOFExcludeNFastq2.pl OutputFileOFBowtie2(SAMFile)
+#Example: perl PhiXRemove.pl Test.fastq.N Test.fastq.sam
+
+use warnings;
+use strict;
+
+my ($input, $output, $counter, $ref, $ok, $divless, $all, $seqname) = 0;
+my (%id_Hash) = ();
+
+$input = $ARGV[0];
+open(INPUT, "$input") or die "Can't open \"$input\"\n";
+
+$ref = $ARGV[1];
+open(REF, "$ref") or die "Can't open \"$ref\"\n";
+
+$output = "$input.rem";
+open(OUTPUT, ">$output") or die "Can't open \"$output\"\n";
+
+open(REF, "$ref") or die "Can't open \"$ref\"\n";
+while(<REF>){
+	if(/^(\S+)\s+/){
+		$id_Hash{$1} = 1;
+	}
+}
+close REF;
+
+$counter = 0;
+$ok = 1;
+open(INPUT, "$input") or die "Can't open \"$input\"\n";
+while(<INPUT>){
+	if(/^((\S+).*?)$/){
+		$counter += 1;
+		$seqname = $2;
+		$all = $1;
+		$divless = $counter % 4;
+		if($divless == 1){
+			if($seqname =~ /^\S(\S+?)$/){
+				if(exists($id_Hash{$1})){
+					$ok = 1;
+					next;
+				}
+				else{
+					$ok = 2;
+					print OUTPUT "$all\n";
+				}
+			}
+		}
+		elsif($divless == 2){
+			if($ok == 2){
+				print OUTPUT "$all\n";
+			}
+			else{
+				next;
+			}
+		}
+		elsif($divless == 3){
+			if($ok == 2){
+				print OUTPUT "$all\n";
+			}
+			else{
+				next;
+			}
+		}
+		elsif($divless == 0){
+			if($ok == 2){
+				print OUTPUT "$all\n";
+			}
+			else{
+				next;
+			}
+		}
+	}
+}
+close INPUT;
+close OUTPUT;
+exit;
+
+

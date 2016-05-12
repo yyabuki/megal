@@ -1,0 +1,76 @@
+<tool id="megap_1" name="Cutadapt" version="0.1.0">
+  <description>Trim adapter</description>
+  <command interpreter="bash">
+    cutadapt.sh $input $output
+
+    #if $defaultadapter1.value:
+      -a $defaultadapter1
+    #end if
+
+    #if $defaultadapter2.value:
+      -a $defaultadapter2
+    #end if
+
+    #for $a in $adapter
+      ${a.pat} ${a.seq}
+    #end for
+
+    #if $optM.value:
+      -m $optM
+    #end if
+
+    #if $optQ.value:
+      -q $optQ
+    #end if
+
+    #if $optE.value:
+      -e $optE
+    #end if
+
+    $noindels
+
+    #if $optN.value:
+      -n $optN
+    #end if
+
+    #if $optO.value:
+      -O $optO
+    #end if
+
+  </command>
+  <inputs>
+    <param format="fastq" name="input" type="data" label="Read" />
+    <param name="defaultadapter1" type="text" label="3' Adapter 1" value="AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC" />
+    <param name="defaultadapter2" type="text" label="3' Adapter 2" value="AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT" />
+    <repeat name="adapter" title="Additional adapters">
+      <param name="pat" type="select" label="ligated to" display="radio">
+        <option value="-a" selected="True">3' end</option>
+        <option value="-g">5' end</option>
+        <option value="-b">3' end or 5' end</option>
+      </param>
+      <param name="seq" type="text" label="sequence" />
+    </repeat>
+
+    <param name="optM" type="integer" label="Minimum length (-m)" value="50" />
+    <param name="optQ" type="integer" label="Quality cutoff (-q)" value="17" />
+    <param name="optE" type="float" label="Error rate (-e)" value="0.1" />
+    <param name="noindels" type="boolean" label="Do not allow indels (--no-indels)" checked="False" truevalue="--no-indels" falsevalue=""/>
+    <param name="optN" type="integer" label="Remove up to this count (-n)" value="1" />
+    <param name="optO" type="integer" label="Overlap length (-O)" value="3" />
+
+  </inputs>
+  <outputs>
+    <data format="fastq" name="output" label="${tool.name} Trimmed" />
+  </outputs>
+
+  <tests>
+    <test>
+    </test>
+  </tests>
+
+  <help>
+https://cutadapt.readthedocs.org/en/stable/
+  </help>
+
+</tool>
+
